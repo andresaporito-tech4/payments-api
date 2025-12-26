@@ -1,0 +1,24 @@
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  DOTNET_VERSION: '8.x'
+  PROJECT_PATH: '**/*.csproj'   # ajusta se quiser apontar pro .csproj específico
+
+steps:
+- task: UseDotNet@2
+  inputs:
+    packageType: 'sdk'
+    version: '$(DOTNET_VERSION)'
+
+- script: dotnet restore
+  displayName: Restore
+
+- script: dotnet build --configuration Release --no-restore
+  displayName: Build
+
+- script: dotnet test --configuration Release --no-build --verbosity normal
+  displayName: Test
