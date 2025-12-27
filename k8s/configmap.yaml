@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: payments-api-config
+  namespace: fiap-cloud-games
+data:
+  ASPNETCORE_ENVIRONMENT: "Development"
+  ASPNETCORE_URLS: "http://+:8080"
+  ConnectionStrings__DefaultConnection: "Host=postgres;Port=5432;Database=gamesdb;Username=admin;Password=123456"
+  RABBITMQ_HOST: "rabbitmq"
