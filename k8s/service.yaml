@@ -4,6 +4,7 @@ metadata:
   name: payments-api
   namespace: fiap-cloud-games
 spec:
+  type: ClusterIP
   selector:
     app: payments-api
   ports:
