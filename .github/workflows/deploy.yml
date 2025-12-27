@@ -1,0 +1,55 @@
+name: Deploy Payments API
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Build and Deploy Payments API
+    runs-on: self-hosted
+
+    steps:
+      # ---------------------------------------
+      # 1️⃣ Checkout do código
+      # ---------------------------------------
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ---------------------------------------
+      # 2️⃣ Validar ambiente
+      # ---------------------------------------
+      - name: Validate Docker and Kubernetes
+        shell: powershell
+        run: |
+          docker info
+          kubectl cluster-info
+
+      # ---------------------------------------
+      # 3️⃣ Build da imagem Docker (LOCAL)
+      # ---------------------------------------
+      - name: Build Docker image
+        shell: powershell
+        run: |
+          docker build `
+            -t payments-api:latest `
+            -f Payments.Api/dockerfile `
+            .
+
+      # ---------------------------------------
+      # 4️⃣ Deploy no Kubernetes
+      # ---------------------------------------
+      - name: Deploy to Kubernetes
+        shell: powershell
+        run: |
+          kubectl apply -f k8s/ -n fiap-cloud-games
+
+      # ---------------------------------------
+      # 5️⃣ Verificação final
+      # ---------------------------------------
+      - name: Verify deployment
+        shell: powershell
+        run: |
+          kubectl get pods -n fiap-cloud-games
+          kubectl get svc  -n fiap-cloud-games
