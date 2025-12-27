@@ -50,6 +50,7 @@ jobs:
 
       # ---------------------------------------------------
       # 4️⃣ Build da imagem Docker (LOCAL)
+      #    👉 Contexto = Payments.Api
       # ---------------------------------------------------
       - name: Build Docker image
         shell: powershell
@@ -57,7 +58,7 @@ jobs:
           docker build `
             -t payments-api:latest `
             -f Payments.Api/dockerfile `
-            .
+            Payments.Api
 
       # ---------------------------------------------------
       # 5️⃣ Deploy no Kubernetes
