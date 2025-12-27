@@ -50,7 +50,7 @@ jobs:
 
       # ---------------------------------------------------
       # 4️⃣ Build da imagem Docker (LOCAL)
-      #    👉 Contexto = Payments.Api
+      #    Contexto = Payments.Api
       # ---------------------------------------------------
       - name: Build Docker image
         shell: powershell
@@ -62,11 +62,18 @@ jobs:
 
       # ---------------------------------------------------
       # 5️⃣ Deploy no Kubernetes
+      #    👉 Garantir diretório raiz
       # ---------------------------------------------------
       - name: Deploy to Kubernetes
         shell: powershell
         run: |
-          kubectl apply -f k8s/ -n fiap-cloud-games
+          Write-Host "Diretório atual:"
+          Get-Location
+
+          Write-Host "Conteúdo do workspace:"
+          Get-ChildItem
+
+          kubectl apply -f .\k8s -n fiap-cloud-games
 
       # ---------------------------------------------------
       # 6️⃣ Verificação final
